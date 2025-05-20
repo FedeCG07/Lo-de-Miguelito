@@ -1,0 +1,10 @@
+model Client {
+  idClient        Int @id
+  fullName      String
+  email String @unique
+  phoneNumber Int
+  password String
+  address String
+
+  orders Order[]
+}

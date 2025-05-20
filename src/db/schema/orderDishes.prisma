@@ -1,0 +1,8 @@
+model OrderDishes {
+  idOrderDishes  Int @id
+  idOrder Int 
+  idDish Int
+
+  order Order     @relation(fields: [idOrder], references: [idOrder])
+  dishes Menu     @relation(fields: [idDish], references: [idDish])
+}

@@ -1,0 +1,11 @@
+model Menu {
+  idDish        Int @id
+  name      String
+  desc      String
+  price     Int
+  idCategory  Int
+
+  orders OrderDishes[]
+
+  category Category @relation(fields: [idDish], references: [idCategory])
+}

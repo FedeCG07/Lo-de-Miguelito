@@ -1,0 +1,6 @@
+model State {
+  idState       Int @id
+  state String
+
+  orders Order[]
+}

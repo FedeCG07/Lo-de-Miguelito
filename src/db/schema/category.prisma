@@ -1,0 +1,6 @@
+model Category {
+  idCategory      Int @id
+  category String
+
+  dishes Menu[]
+}

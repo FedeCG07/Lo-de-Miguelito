@@ -1,0 +1,14 @@
+model Order {
+  idOrder        Int @id
+  idClient Int
+  idState Int
+  amountOfDishes Int
+  totalPrice Int
+  discountPercentage Int
+  deliveryAddress String
+
+  dishes OrderDishes[]
+
+  client Client     @relation(fields: [idClient], references: [idClient])
+  state State     @relation(fields: [idState], references: [idState])
+}
