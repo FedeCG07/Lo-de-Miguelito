@@ -1,5 +1,5 @@
 model Client {
-  idClient        Int @id
+  idClient        Int @id @default(autoincrement())
   fullName      String
   email String @unique
   phoneNumber Int

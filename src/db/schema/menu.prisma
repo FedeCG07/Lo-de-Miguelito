@@ -1,6 +1,6 @@
 model Menu {
   idDish        Int @id
-  name      String
+  name      String 
   desc      String
   price     Int
   idCategory  Int

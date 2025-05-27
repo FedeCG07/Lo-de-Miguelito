@@ -1,0 +1,5 @@
+model Table {
+    idTable Int @id @default(autoincrement())
+    tableNumber Int
+    reserved Boolean
+}

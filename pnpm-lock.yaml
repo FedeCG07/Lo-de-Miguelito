@@ -17,6 +17,9 @@ importers:
       express:
         specifier: ^5.1.0
         version: 5.1.0
+      express-node-api-completa:
+        specifier: 'file:'
+        version: file:(prisma@6.7.0(typescript@5.8.3))(typescript@5.8.3)
     devDependencies:
       '@types/express':
         specifier: ^5.0.1
@@ -341,6 +344,9 @@ packages:
   etag@1.8.1:
     resolution: {integrity: sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==}
     engines: {node: '>= 0.6'}
+
+  'express-node-api-completa@file:':
+    resolution: {directory: '', type: directory}
 
   express@5.1.0:
     resolution: {integrity: sha512-DT9ck5YIRU+8GYzzU5kT3eHGA5iL+1Zd0EutOmTE9Dtk+Tvuzd23VBU+ec7HPNSTxXYO55gPV/hq4pSBJDjFpA==}
@@ -815,6 +821,16 @@ snapshots:
   escape-html@1.0.3: {}
 
   etag@1.8.1: {}
+
+  express-node-api-completa@file:(prisma@6.7.0(typescript@5.8.3))(typescript@5.8.3):
+    dependencies:
+      '@prisma/client': 6.7.0(prisma@6.7.0(typescript@5.8.3))(typescript@5.8.3)
+      dotenv: 16.5.0
+      express: 5.1.0
+    transitivePeerDependencies:
+      - prisma
+      - supports-color
+      - typescript
 
   express@5.1.0:
     dependencies:

@@ -8,7 +8,7 @@ interface CreatePostBody {
   content: string
   authorId: string
 }
-
+//NO ES MÍO
 export class PostService {
   async getAllPosts() {
     try {
