@@ -2,16 +2,12 @@ import { Menu } from "@prisma/client";
 
 import { db } from "../db/db";
 
-export class menuService {
-    async getDishes() {
+export class MenuService {
+    async getAllDishes() {
         try {
-            const dishes = await db.menu.findMany({
-                select: {
-                    name: true,
-                    desc: true,
-                    price: true
-                }
-            })
-        } catch (error) {}
+            //REPOSITORYYYYYY
+        } catch (error) {
+            throw new Error('Base de datos ultra bug');
+        }
     }
 }

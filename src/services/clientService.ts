@@ -10,48 +10,25 @@ interface CreateClientBody {
   address: string
 }
 
-export class clientService {
+export class ClientService {
     async register(fullName: string, email: string, phoneNumber: number, password: string, address: string){
         try {
-            const newClient = await db.client.create({
-                data: {
-                    fullName,
-                    email,
-                    phoneNumber,
-                    password,
-                    address
-                }
-            })
-
-            return newClient;
+            //llamar repository
         } catch (error) {}
     }
 
     async logIn(email: string, inputPassword: string){
         try {
-            const password = await db.client.findUnique({
-                where: {
-                    email
-                },
-                select: {
-                    password: true
-                }
-            })
+            
+            //Usar repository
 
-            const clientPassword = password?.password;
+            //const clientPassword = password?.password;
 
-            if (clientPassword == inputPassword) {
-                return await db.client.findUnique({
-                    where: {
-                        email
-                    },
-                    select: {
-                        idClient: true
-                    }
-                })
-            } else {
-                throw new Error('El email o la contraseña es incorrecto.');
-            }
+            //if (clientPassword == inputPassword) {
+
+            //} else {
+                //throw new Error('El email o la contraseña es incorrecto.');
+            //}
         } catch (error) {}
     }
 }
