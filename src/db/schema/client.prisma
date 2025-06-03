@@ -5,6 +5,7 @@ model Client {
   phoneNumber Int
   password String
   address String
+  totalOrders Int @default(0)
 
   orders Order[]
 }

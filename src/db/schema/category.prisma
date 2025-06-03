@@ -1,5 +1,5 @@
 model Category {
-  idCategory      Int @id
+  idCategory      Int @id @default(autoincrement())
   category String
 
   dishes Menu[]

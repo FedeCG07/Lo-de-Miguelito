@@ -1,7 +1,7 @@
 model Order {
-  idOrder        Int @id
+  idOrder        Int @id @default(autoincrement())
   idClient Int
-  idState Int
+  idState Int @default(1)
   amountOfDishes Int
   totalPrice Int
   discountPercentage Int

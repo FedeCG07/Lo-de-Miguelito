@@ -1,5 +1,5 @@
 model OrderDishes {
-  idOrderDishes  Int @id
+  idOrderDishes  Int @id @default(autoincrement())
   idOrder Int 
   idDish Int
 

@@ -1,5 +1,5 @@
 model Menu {
-  idDish        Int @id
+  idDish        Int @id @default(autoincrement())
   name      String 
   desc      String
   price     Int
