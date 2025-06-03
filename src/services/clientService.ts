@@ -1,6 +1,4 @@
-import { Client } from "@prisma/client";
-
-import { db } from "../db/db";
+import { ClientRepository } from "../repositories/clientRepository";
 
 interface CreateClientBody {
   fullName: string
@@ -10,25 +8,28 @@ interface CreateClientBody {
   address: string
 }
 
+const clientRepository = new ClientRepository();
+
 export class ClientService {
     async register(fullName: string, email: string, phoneNumber: number, password: string, address: string){
         try {
-            //llamar repository
+            const newClient = clientRepository.createClient(fullName, email, phoneNumber, password, address);
+
+            return newClient;
         } catch (error) {}
     }
 
     async logIn(email: string, inputPassword: string){
         try {
-            
-            //Usar repository
+            const password = await clientRepository.getPasswordByEmail(email);
 
-            //const clientPassword = password?.password;
+            const clientPassword = password?.password;
 
-            //if (clientPassword == inputPassword) {
-
-            //} else {
-                //throw new Error('El email o la contraseña es incorrecto.');
-            //}
+            if (clientPassword == inputPassword) {
+                const idClient = clientRepository.getClientIdByEmail(email);
+            } else {
+                throw new Error('El email o la contraseña es incorrecto.');
+            }
         } catch (error) {}
     }
 }
