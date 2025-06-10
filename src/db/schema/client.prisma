@@ -6,6 +6,7 @@ model Client {
   password String
   address String
   totalOrders Int @default(0)
+  role String @default("Client")
 
   orders Order[]
 }

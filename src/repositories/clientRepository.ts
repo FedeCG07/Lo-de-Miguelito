@@ -43,6 +43,17 @@ export class ClientRepository {
         return id;
     }
 
+    async getClientRole(idClient: number) {
+        const role = await db.client.findUnique({
+            where: {
+                idClient
+            },
+            select: {
+                role: true
+            }
+        })
+    }
+
     async increaseOrdersCount(idClient: number) {
         const updatedClient = await db.client.update({
             where: {

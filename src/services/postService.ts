@@ -1,5 +1,3 @@
-
-
 import { Post } from "@prisma/client";
 
 import { db } from "../db/db";

@@ -1,13 +1,49 @@
-import { Menu } from "@prisma/client";
+import { MenuRepository } from "../repositories/menuRepository";
+import { CategoryRepository } from "../repositories/categoryRepository";
 
-import { db } from "../db/db";
+interface CreateMenuBody {
+  name: string
+  desc: string
+  price: number
+  idCategory: number
+}
+
+const menuRepository = new MenuRepository();
+const categoryRepository = new CategoryRepository();
 
 export class MenuService {
+    async createDish(name: string, desc: string, price: number, idCategory: number) {
+        try {
+            const newDish = await menuRepository.createDish(name, desc, price, idCategory);
+
+            return newDish;
+        } catch (error) {
+
+        }
+    }
+
     async getAllDishes() {
         try {
-            //REPOSITORYYYYYY
+            const dishes = await menuRepository.getAllDishesDetails();
+
+            for (const dish of dishes) {
+                const category = await categoryRepository.getCategoryById(dish.idCategory);
+                dish.category = category;
+            }
+
+            return dishes;
         } catch (error) {
             throw new Error('Base de datos ultra bug');
+        }
+    }
+
+    async deleteDish(idDish: number) {
+        try {
+            const deletedDish = await menuRepository.deleteDish(idDish);
+    
+            return deletedDish;
+        } catch (error) {
+
         }
     }
 }

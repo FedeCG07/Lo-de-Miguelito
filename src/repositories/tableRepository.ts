@@ -56,7 +56,7 @@ export class TableRepository {
         return availability;
     }
 
-    async checkAllTablesAvailability() {
+    async checkAllAvailableTables() {
         const availability = await db.table.findMany({
             where: {
                 reserved: false
