@@ -2,6 +2,7 @@ model OrderDishes {
   idOrderDishes  Int @id @default(autoincrement())
   idOrder Int 
   idDish Int
+  amount Int
 
   order Order     @relation(fields: [idOrder], references: [idOrder])
   dishes Menu     @relation(fields: [idDish], references: [idDish])

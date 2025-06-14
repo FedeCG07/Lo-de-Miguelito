@@ -3,69 +3,58 @@ import { Table } from "@prisma/client";
 import { db } from "../db/db"
 
 export class TableRepository {
-    async getTableIdByTableNumber(tableNumber: number) {
-        const result = await db.table.findFirst({
+    async getTable(tableNumber: number) {
+        const table = await db.table.findFirst({
             where: {
                 tableNumber
-            },
-            select: {
-                idTable: true
             }
         })
 
-        return result?.idTable ?? null;
+        if (!table) throw new Error("No se encontró la mesa número " + tableNumber)
+
+        return table;
 
     }
 
-    async reserveTable(idTable: number) {
+    async reserveTable(tableNumber: number) {
         const updatedTable = await db.table.update({
-        where: {
-            idTable
-        },
-        data: {
-            reserved: true
-        }
+            where: {
+                tableNumber
+            },
+            data: {
+                reserved: true
+            }
         })
+
+        if (!updatedTable) throw new Error("No se encontró la mesa número " + tableNumber)
 
         return updatedTable;
     }
 
-    async cancelTableReservation(idTable: number) {       
+    async cancelTableReservation(tableNumber: number) {       
         const updatedTable = await db.table.update({
             where: {
-                idTable
+                tableNumber
             },
             data: {
                 reserved: false
             }
         }) 
 
+        if (!updatedTable) throw new Error("No se encontró la mesa número " + tableNumber)
+
         return updatedTable;
     }
 
-    async checkTableAvailability(idTable: number) {
-        const availability = await db.table.findFirst({
-            where: {
-                idTable
-            },
-            select: {
-                reserved: true
-            }
-        })
-
-        return availability;
-    }
-
     async checkAllAvailableTables() {
-        const availability = await db.table.findMany({
+        const tables = await db.table.findMany({
             where: {
                 reserved: false
-            },
-            select: {
-                tableNumber: true
-            }   
+            } 
         })
 
-        return availability;
+        if (!tables) throw new Error("No hay mesas disponibles en este menú")
+
+        return tables;
     }
 }

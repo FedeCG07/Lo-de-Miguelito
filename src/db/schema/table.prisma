@@ -1,5 +1,6 @@
 model Table {
-    idTable Int @id @default(autoincrement())
-    tableNumber Int 
+    tableNumber Int @id @default(autoincrement())
     reserved Boolean
+
+    reservations Client[]
 }

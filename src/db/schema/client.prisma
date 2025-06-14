@@ -7,6 +7,10 @@ model Client {
   address String
   totalOrders Int @default(0)
   role String @default("Client")
+  discountPercentage Int @default(0)
+  reservedTable Int?
 
   orders Order[]
+
+  table Table? @relation(fields: [reservedTable], references: [tableNumber])
 }

@@ -19,26 +19,33 @@ export class ClientService {
             const newClient = await clientRepository.createClient(fullName, email, phoneNumber, hashedPassword, address);
 
             return newClient;
-        } catch (error) {}
+        } catch (error) {
+            throw new Error((error as Error).message);
+        }
     }
 
     async logIn(email: string, inputPassword: string){
         try {
-            const password = await clientRepository.getPasswordByEmail(email);
+            const client = await clientRepository.getClientByEmail(email);
+
+            const password = client.password;
 
             if (!password) {
                 throw new Error('El email no está registrado.');
             }
             
-            const passwordMatch = await bcrypt.compare(inputPassword, password?.password);
+            const passwordMatch = await bcrypt.compare(inputPassword, password);
 
             if (!passwordMatch) {
                 throw new Error('El email o la contraseña es incorrecto.');
             }
 
-            const idClient = await clientRepository.getClientIdByEmail(email);
-            const role = await clientRepository.getClientRole(idClient);
-            return { token: idClient, role };
-        } catch (error) {}
+            const role = client.role;
+            const id = client.idClient;
+
+            return { token: id, role };
+        } catch (error) {
+            throw new Error((error as Error).message);
+        }
     }
 }

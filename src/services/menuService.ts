@@ -18,17 +18,18 @@ export class MenuService {
 
             return newDish;
         } catch (error) {
-
+            throw new Error((error as Error).message);
         }
     }
 
     async getAllDishes() {
         try {
-            const dishes = await menuRepository.getAllDishesDetails();
+            const dishes = await menuRepository.getAllDishes();
 
             for (const dish of dishes) {
-                const category = await categoryRepository.getCategoryById(dish.idCategory);
-                dish.category = category;
+                const category = await categoryRepository.getCategory(dish.idCategory);
+                dish.category = category; //durisimo y completamente ilegal
+                //desestructurar y armar objeto nuevo con nombre de categoría para devolver??
             }
 
             return dishes;
@@ -43,7 +44,7 @@ export class MenuService {
     
             return deletedDish;
         } catch (error) {
-
+            throw new Error((error as Error).message);
         }
     }
 }

@@ -5,54 +5,45 @@ import { db } from "../db/db";
 export class ClientRepository {
     async createClient(fullName: string, email: string, phoneNumber: number, password: string, address: string) {
         const newClient = await db.client.create({
-                data: {
-                    fullName,
-                    email,
-                    phoneNumber,
-                    password,
-                    address
-                }
-            })
+            data: {
+                fullName,
+                email,
+                phoneNumber,
+                password,
+                address
+            }
+        })
+
+        if (!newClient) throw new Error("No se pudo crear el usuario");
 
         return newClient;
     }
 
-    async getPasswordByEmail(email: string) {
-        const password = await db.client.findUnique({
+    async getClientById(id: number) {
+        const client = await db.client.findFirst({
+            where: {
+                idClient: id
+            }
+        })
+
+        if (!client) throw new Error("No hay cliente con el id: " + id)
+
+        return client;
+    }
+
+    async getClientByEmail(email: string) {
+        const cliente = await db.client.findUnique({
             where: {
                 email
-            },
-            select: {
-                password: true
             }
         })
 
-        return password;
+        if (!cliente) throw new Error("No hay cliente con el email: " + email)
+
+
+        return cliente;
     }
 
-    async getClientIdByEmail(email: string) {
-        const id = await db.client.findUnique({
-            where: {
-                email
-            },
-            select: {
-                idClient: true
-            }
-        })
-
-        return id;
-    }
-
-    async getClientRole(idClient: number) {
-        const role = await db.client.findUnique({
-            where: {
-                idClient
-            },
-            select: {
-                role: true
-            }
-        })
-    }
 
     async increaseOrdersCount(idClient: number) {
         const updatedClient = await db.client.update({
@@ -65,6 +56,38 @@ export class ClientRepository {
                 }
             }
         })
+
+        if (!updatedClient) throw new Error("No se encontró el cliente con id: " + idClient)
+
+        return updatedClient;
+    }
+
+    async setDiscountPercentage(idClient: number, discountPercentage: number) {
+        const updatedClient = await db.client.update({
+            where: {
+                idClient
+            },
+            data: {
+                discountPercentage
+            }
+        })
+
+        if (!updatedClient) throw new Error("No se encontró el cliente con id: " + idClient)
+
+        return updatedClient;
+    }
+
+    async reserveTable(idClient: number, tableNumber: number) {
+        const updatedClient = await db.client.update({
+            where: {
+                idClient
+            },
+            data: {
+                reservedTable: tableNumber
+            }
+        })
+
+        if (!updatedClient) throw new Error("No se encontró el cliente con id: " + idClient)
 
         return updatedClient;
     }

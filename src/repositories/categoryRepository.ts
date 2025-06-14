@@ -9,9 +9,11 @@ export class CategoryRepository {
                 category
             }
         })
+
+        if (!newCategory) throw new Error("No se pudo crear la categoría")
     }
 
-    async getCategoryById(idCategory: number) {
+    async getCategory(idCategory: number) {
         const category = await db.category.findUnique({
             where: {
                 idCategory
@@ -20,6 +22,8 @@ export class CategoryRepository {
                 category: true
             }
         })
+
+        if (!category) throw new Error("No se encontró la categoría con id: " + idCategory)
 
         return category
     }

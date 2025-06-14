@@ -14,19 +14,22 @@ export class OrderRepository {
                 deliveryAddress
             }
         })
+
+        if (!newOrder) throw new Error("No se pudo crear la orden")
+
+        return newOrder;
     }
 
-    async getOrderState(idOrder: number) {
-        const idState = await db.order.findUnique({
+    async getOrder(idOrder: number) {
+        const order = await db.order.findUnique({
             where:{
                 idOrder
-            }, 
-            select: {
-                idState: true
             }
         })
 
-        return idState;
+        if (!order) throw new Error("No se encontró la orden: " + idOrder)
+
+        return order;
     }
 
     async changeOrderState(idOrder: number, idState: number) {
@@ -38,5 +41,7 @@ export class OrderRepository {
                 idState
             }
         })
+
+        return updatedOrder;
     }
 }

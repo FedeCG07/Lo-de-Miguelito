@@ -3,15 +3,14 @@ import { State } from "@prisma/client";
 import { db } from "../db/db";
 
 export class StateRepository {
-    async getStateById(idState: number) {
+    async getState(idState: number) {
         const state = await db.state.findUnique({
             where: {
                 idState
-            },
-            select: {
-                state: true
             }
         })
+
+        if (!state) throw new Error("No se encontró el éstado con id: " + idState)
         
         return state;
     }
