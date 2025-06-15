@@ -1,7 +1,6 @@
 import { Order } from "@prisma/client";
 
 import { db } from "../db/db";
-import { isDataView } from "util/types";
 
 export class OrderRepository {
     async createOrder(idClient: number, amountOfDishes: number, totalPrice: number, discountPercentage: number, deliveryAddress: string) {

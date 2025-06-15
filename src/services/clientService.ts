@@ -15,12 +15,10 @@ export class ClientService {
     async register(fullName: string, email: string, phoneNumber: number, password: string, address: string){
         try {
             const hashedPassword = await bcrypt.hash(password, 10);
-
             const newClient = await clientRepository.createClient(fullName, email, phoneNumber, hashedPassword, address);
-
             return newClient;
         } catch (error) {
-            throw new Error((error as Error).message);
+            throw error;
         }
     }
 
@@ -40,12 +38,9 @@ export class ClientService {
                 throw new Error('El email o la contraseña es incorrecto.');
             }
 
-            const role = client.role;
-            const id = client.idClient;
-
-            return { token: id, role };
+            return client;
         } catch (error) {
-            throw new Error((error as Error).message);
+            throw error;
         }
     }
 }

@@ -1,7 +1,7 @@
 import { MenuRepository } from "../repositories/menuRepository";
 import { CategoryRepository } from "../repositories/categoryRepository";
 
-interface CreateMenuBody {
+interface CreateDishBody {
   name: string
   desc: string
   price: number
@@ -18,7 +18,7 @@ export class MenuService {
 
             return newDish;
         } catch (error) {
-            throw new Error((error as Error).message);
+            throw error;
         }
     }
 
@@ -26,15 +26,24 @@ export class MenuService {
         try {
             const dishes = await menuRepository.getAllDishes();
 
-            for (const dish of dishes) {
+            const dishesDetails = await Promise.all(
+            dishes.map(async (dish: any) => {
                 const category = await categoryRepository.getCategory(dish.idCategory);
-                dish.category = category; //durisimo y completamente ilegal
-                //desestructurar y armar objeto nuevo con nombre de categoría para devolver??
-            }
+                return {
+                    id: dish.id,
+                    name: dish.name,
+                    desc: dish.desc,
+                    price: dish.price,
+                    category: category.category,
+                };
+            })
+            );
 
-            return dishes;
+            dishesDetails.sort((a, b) => a.category.localeCompare(b.category));
+
+            return dishesDetails;
         } catch (error) {
-            throw new Error('Base de datos ultra bug');
+            throw error;
         }
     }
 
@@ -44,7 +53,7 @@ export class MenuService {
     
             return deletedDish;
         } catch (error) {
-            throw new Error((error as Error).message);
+            throw error;
         }
     }
 }

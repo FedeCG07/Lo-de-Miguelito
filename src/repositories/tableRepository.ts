@@ -31,7 +31,7 @@ export class TableRepository {
         return updatedTable;
     }
 
-    async cancelTableReservation(tableNumber: number) {       
+    async unreserveTable(tableNumber: number) {       
         const updatedTable = await db.table.update({
             where: {
                 tableNumber

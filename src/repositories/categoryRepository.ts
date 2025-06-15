@@ -17,14 +17,11 @@ export class CategoryRepository {
         const category = await db.category.findUnique({
             where: {
                 idCategory
-            },
-            select: {
-                category: true
             }
         })
 
-        if (!category) throw new Error("No se encontró la categoría con id: " + idCategory)
+        if (!category) throw new Error("No se encontró la categoría con id: " + idCategory);
 
-        return category
+        return category;
     }
 }
