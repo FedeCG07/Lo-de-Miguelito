@@ -1,4 +1,5 @@
 import { Table } from "@prisma/client";
+import { HTTPError } from '../errors/HTTPError';
 
 import { db } from "../db/db"
 
@@ -10,7 +11,7 @@ export class TableRepository {
             }
         })
 
-        if (!table) throw new Error("No se encontró la mesa número " + tableNumber)
+        if (!table) throw new HTTPError("No se encontró la mesa número " + tableNumber, 404)
 
         return table;
 
@@ -26,7 +27,7 @@ export class TableRepository {
             }
         })
 
-        if (updatedTable.count === 0) throw new Error("No se encontró la mesa número " + tableNumber)
+        if (updatedTable.count === 0) throw new HTTPError("No se encontró la mesa número " + tableNumber, 404)
 
         return updatedTable;
     }
@@ -41,7 +42,7 @@ export class TableRepository {
             }
         }) 
 
-        if (updatedTable.count === 0) throw new Error("No se encontró la mesa número " + tableNumber)
+        if (updatedTable.count === 0) throw new HTTPError("No se encontró la mesa número " + tableNumber, 404)
 
         return updatedTable;
     }
@@ -53,7 +54,7 @@ export class TableRepository {
             } 
         })
 
-        if (!tables) throw new Error("No hay mesas disponibles en este menú")
+        if (tables.length === 0) throw new HTTPError("No hay mesas disponibles en este momento", 404)
 
         return tables;
     }

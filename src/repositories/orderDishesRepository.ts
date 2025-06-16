@@ -1,4 +1,5 @@
 import { OrderDishes } from "@prisma/client";
+import { HTTPError } from '../errors/HTTPError';
 
 import { db } from "../db/db";
 
@@ -12,7 +13,7 @@ export class OrderDishesRepository {
             }
         })
 
-        if (!addedDish) throw new Error("No se pudo agregar el plato " + idDish + " a la orden " + idOrder)
+        if (!addedDish) throw new HTTPError("No se pudo agregar el plato " + idDish + " a la orden " + idOrder, 500)
 
         return addedDish;
     }
@@ -24,7 +25,7 @@ export class OrderDishesRepository {
             }
         })
 
-        if (!dishes) throw new Error("No se encontró la orden: " + idOrder)
+        if (!dishes) throw new HTTPError("No se encontró la orden: " + idOrder, 404)
 
         return dishes;
     }

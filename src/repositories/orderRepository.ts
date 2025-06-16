@@ -1,4 +1,5 @@
 import { Order } from "@prisma/client";
+import { HTTPError } from '../errors/HTTPError';
 
 import { db } from "../db/db";
 
@@ -14,7 +15,7 @@ export class OrderRepository {
             }
         })
 
-        if (!newOrder) throw new Error("No se pudo crear la orden")
+        if (!newOrder) throw new HTTPError("No se pudo crear la orden", 500)
 
         return newOrder;
     }
@@ -26,7 +27,7 @@ export class OrderRepository {
             }
         })
 
-        if (!order) throw new Error("No se encontró la orden: " + idOrder)
+        if (!order) throw new HTTPError("No se encontró la orden: " + idOrder, 404)
 
         return order;
     }
@@ -38,7 +39,7 @@ export class OrderRepository {
             }
         })
 
-        if (!orders) throw new Error('No tiene ninguna orden activa')
+        if (orders.length === 0) throw new HTTPError('No tiene ninguna orden activa', 404)
 
         return orders;
     }
@@ -53,7 +54,7 @@ export class OrderRepository {
             }
         })
 
-        if (updatedOrder.count === 0) throw new Error('No existe la orden número ' + idOrder)
+        if (updatedOrder.count === 0) throw new HTTPError('No se encontró la orden número ' + idOrder, 404)
 
         return updatedOrder;
     }

@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import { ClientRepository } from "../repositories/clientRepository";
+import { HTTPError } from '../errors/HTTPError';
 
 interface CreateClientBody {
   fullName: string
@@ -29,13 +30,13 @@ export class ClientService {
             const password = client.password;
 
             if (!password) {
-                throw new Error('El email no está registrado.');
+                throw new HTTPError('El email no está registrado.', 404);
             }
             
             const passwordMatch = await bcrypt.compare(inputPassword, password);
 
             if (!passwordMatch) {
-                throw new Error('El email o la contraseña es incorrecto.');
+                throw new HTTPError('El email o la contraseña es incorrecto.', 401);
             }
 
             return client;
@@ -45,12 +46,16 @@ export class ClientService {
     }
 
     async getReservedTable(idClient: number) {
-        const client = await clientRepository.getClientById(idClient);
+        try {
+            const client = await clientRepository.getClientById(idClient);
 
-        const reservedTable = client.reservedTable;
+            const reservedTable = client.reservedTable;
 
-        if (!reservedTable) throw new Error('No tiene ninguna mesa reservada');
+            if (!reservedTable) throw new HTTPError('No tiene ninguna mesa reservada', 404);
 
-        return reservedTable;
+            return reservedTable;
+        } catch (error) {
+            throw error;
+        }
     }
 }

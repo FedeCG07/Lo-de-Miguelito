@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { ClientService } from '../services/clientService';
 import { AuthService } from '../services/authService';
+import { HTTPError } from '../errors/HTTPError';
 
 const clientService = new ClientService();
 const authService = new AuthService();
@@ -10,7 +11,7 @@ export async function login(req: Request, res: Response) {
         const oldToken = req.cookies?.token;
 
         if (oldToken) {
-            throw new Error('Ya hay una sesión iniciada');
+            throw new HTTPError('Ya hay una sesión iniciada', 409);
         }
 
         const { email, password } = req.body;
@@ -29,7 +30,7 @@ export async function login(req: Request, res: Response) {
             maxAge: 1000 * 60 * 60 // 1 hour
         });
 
-        res.json({ message: 'Inicio de sesón exitoso' });
+        res.status(200).json({ message: 'Inicio de sesón exitoso' });
     } catch (error) {
         throw error;
     }

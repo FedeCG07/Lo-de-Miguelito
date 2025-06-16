@@ -1,5 +1,6 @@
 import { MenuRepository } from "../repositories/menuRepository";
 import { CategoryRepository } from "../repositories/categoryRepository";
+import { AdminError } from '../errors/adminError';
 
 interface CreateDishBody {
   name: string
@@ -14,7 +15,7 @@ const categoryRepository = new CategoryRepository();
 export class MenuService {
     async createDish(name: string, desc: string, price: number, idCategory: number, role: string) {
         try {
-            if (role == 'Client') throw new Error('Debe ser administrador para acceder a esta función');
+            if (role == 'Client') throw new AdminError();
 
             const newDish = await menuRepository.createDish(name, desc, price, idCategory);
 
@@ -51,7 +52,7 @@ export class MenuService {
 
     async deleteDish(idDish: number, role: string) {
         try {
-            if (role == 'Client') throw new Error('Debe ser administrador para acceder a esta función');
+            if (role == 'Client') throw new AdminError();
 
             const deletedDish = await menuRepository.deleteDish(idDish);
     

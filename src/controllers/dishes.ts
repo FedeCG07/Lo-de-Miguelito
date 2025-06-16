@@ -6,7 +6,7 @@ const menuService = new MenuService();
 export async function dishes(_: Request, res: Response) {
     try {
         const dishes = await menuService.getAllDishes();
-        res.json(dishes);
+        res.status(200).json(dishes);
     } catch (error) {
         throw error;
     }

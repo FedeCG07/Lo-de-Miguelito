@@ -4,8 +4,8 @@ import { MenuRepository } from "../repositories/menuRepository";
 import { ClientRepository } from "../repositories/clientRepository";
 import { DiscountService } from "./discountService";
 import { StateRepository } from "../repositories/stateRepository";
-import { stat } from "fs";
-import { error } from "console";
+import { HTTPError } from '../errors/HTTPError';
+import { AdminError } from '../errors/adminError';
 
 interface CreateOrderItem {
   idDish: number;
@@ -26,7 +26,7 @@ export class OrderService {
         try {
             const client = await clientRepository.getClientById(idClient);
 
-            if (!client.reservedTable) throw new Error('No puede efectuar un pedido sin reservar una mesa')
+            if (!client.reservedTable) throw new HTTPError('No puede efectuar un pedido sin reservar una mesa', 403)
 
             let amountOfDishes = 0;
             let totalPrice = 0;
@@ -61,7 +61,7 @@ export class OrderService {
 
     async checkOrderState(idOrder: number, role: string) {
         try {
-            if (role == 'Client') throw new Error('Debe ser administrador para acceder a esta función');
+            if (role == 'Client') throw new AdminError();
             
             const order = await orderRepository.getOrder(idOrder);
             const state = await stateRepository.getState(order.idState);
@@ -74,7 +74,7 @@ export class OrderService {
 
     async updateOrderState(idOrder: number, idState: number, role: string) {
         try {
-            if (role == 'Client') throw new Error('Debe ser administrador para acceder a esta función');
+            if (role == 'Client') throw new AdminError();
 
             const order = await orderRepository.changeOrderState(idOrder, idState);
         } catch(error) {
@@ -96,7 +96,7 @@ export class OrderService {
             })
             );
 
-            if (ordersState.length === 0) throw new Error('No tiene pedidos activos');
+            if (ordersState.length === 0) throw new HTTPError('No tiene pedidos activos', 404);
 
             return ordersState;
         } catch (error) {

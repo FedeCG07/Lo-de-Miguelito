@@ -21,7 +21,7 @@ app.use('/orderadmin', orderAdminRouter)
 app.use('/tablesadmin', tablesAdminRouter)
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  res.status(400).json({ error: err.message || 'Internal Server Error' });
+  res.status(err.status).json({ error: err.message || 'Internal Server Error' });
 });
 
 app.listen(8000, () => {

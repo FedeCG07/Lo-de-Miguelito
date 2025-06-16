@@ -1,6 +1,7 @@
 import { TableRepository } from "../repositories/tableRepository";
 import { ClientRepository } from "../repositories/clientRepository";
-import { error, table } from "console";
+import { HTTPError } from '../errors/HTTPError';
+import { AdminError } from '../errors/adminError';
 
 const tableRepository = new TableRepository();
 const clientRepository = new ClientRepository();
@@ -10,9 +11,9 @@ export class TableService {
         try {
             const table = await tableRepository.getTable(tableNumber);
 
-            if (!table) throw new Error('No existe la mesa número ' + tableNumber);
+            if (!table) throw new HTTPError('No existe la mesa número ' + tableNumber, 404);
 
-            if (table.reserved) throw new Error('La mesa ' + tableNumber + ' está ocupada');
+            if (table.reserved) throw new HTTPError('La mesa ' + tableNumber + ' está ocupada', 403);
         } catch (error) {
             throw error;
         }
@@ -39,7 +40,7 @@ export class TableService {
 
             const client = await clientRepository.getClientById(idClient);
 
-            if (client.reservedTable) throw new Error('El cliente ya tiene una mesa reservada. Para reservar una mesa nueva cancele la reserva actual')
+            if (client.reservedTable) throw new HTTPError('El cliente ya tiene una mesa reservada. Para reservar una mesa nueva cancele la reserva actual', 403)
             
             await tableRepository.reserveTable(tableNumber);
             await clientRepository.reserveTable(idClient, tableNumber);
@@ -65,7 +66,7 @@ export class TableService {
 
             const tableNumber = client.reservedTable;
 
-            if (!tableNumber) throw new Error('No tiene ninguna mesa reservada')
+            if (!tableNumber) throw new HTTPError('No tiene ninguna mesa reservada', 403)
 
             this.cancelTableReservation(tableNumber, idClient);
         } catch (error) {
@@ -75,7 +76,7 @@ export class TableService {
 
     async unreserveTable(tableNumber: number, role: string) {
         try {
-            if (role == 'Client') throw new Error('Debe ser administrador para acceder a esta función');
+            if (role == 'Client') throw new AdminError();
 
             const client = await clientRepository.getClientbyTableNumber(tableNumber);
 

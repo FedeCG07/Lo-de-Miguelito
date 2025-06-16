@@ -1,4 +1,5 @@
 import { State } from "@prisma/client";
+import { HTTPError } from '../errors/HTTPError';
 
 import { db } from "../db/db";
 
@@ -10,7 +11,7 @@ export class StateRepository {
             }
         })
 
-        if (!state) throw new Error("No se encontró el éstado con id: " + idState)
+        if (!state) throw new HTTPError("No se encontró el estado con id: " + idState, 404)
         
         return state;
     }

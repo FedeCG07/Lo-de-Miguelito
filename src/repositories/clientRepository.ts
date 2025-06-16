@@ -1,4 +1,5 @@
 import { Client } from "@prisma/client";
+import { HTTPError } from '../errors/HTTPError';
 
 import { db } from "../db/db";
 import { table } from "console";
@@ -15,7 +16,7 @@ export class ClientRepository {
             }
         })
 
-        if (!newClient) throw new Error("No se pudo crear el usuario");
+        if (!newClient) throw new HTTPError("No se pudo crear el usuario", 500);
 
         return newClient;
     }
@@ -27,7 +28,7 @@ export class ClientRepository {
             }
         })
 
-        if (!client) throw new Error("No hay cliente con el id: " + id)
+        if (!client) throw new HTTPError("No hay cliente con el id: " + id, 404)
 
         return client;
     }
@@ -39,7 +40,7 @@ export class ClientRepository {
             }
         })
 
-        if (!client) throw new Error("No hay cliente con el email: " + email)
+        if (!client) throw new HTTPError("No hay cliente con el email: " + email, 404)
 
 
         return client;
@@ -52,7 +53,7 @@ export class ClientRepository {
             }
         })
 
-        if (!client) throw new Error("Ningún cliente ha reservado esta mesa")
+        if (!client) throw new HTTPError("Ningún cliente ha reservado esta mesa", 404);
 
         return client;
     }
@@ -69,7 +70,7 @@ export class ClientRepository {
             }
         })
 
-        if (updatedClient.count === 0) throw new Error("No se encontró el cliente con id: " + idClient)
+        if (updatedClient.count === 0) throw new HTTPError("No se encontró el cliente con id: " + idClient, 404);
 
         return updatedClient;
     }
@@ -84,7 +85,7 @@ export class ClientRepository {
             }
         })
 
-        if (updatedClient.count === 0) throw new Error('No existe el usuario con id: ' + idClient);
+        if (updatedClient.count === 0) throw new HTTPError("No se encontró el cliente con id: " + idClient, 404);
 
         return updatedClient;
     }
@@ -99,7 +100,7 @@ export class ClientRepository {
             }
         })
 
-        if (updatedClient.count === 0) throw new Error("No se encontró el cliente con id: " + idClient);
+        if (updatedClient.count === 0) throw new HTTPError("No se encontró el cliente con id: " + idClient, 404);
 
         return updatedClient;
     }

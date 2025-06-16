@@ -1,4 +1,5 @@
 import { Menu } from "@prisma/client";
+import { HTTPError } from '../errors/HTTPError';
 
 import { db } from "../db/db";
 
@@ -13,7 +14,7 @@ export class MenuRepository {
             }
         })
 
-        if (!newDish) throw new Error("No se pudo crear el plato")
+        if (!newDish) throw new HTTPError("No se pudo crear el plato", 500)
 
         return newDish;
     }
@@ -25,7 +26,7 @@ export class MenuRepository {
             }
         })
 
-        if (!dish) throw new Error("No se encontró el plato con id: " + idDish)
+        if (!dish) throw new HTTPError("No se encontró el plato con id: " + idDish, 404)
 
         return dish;
     }
@@ -41,7 +42,7 @@ export class MenuRepository {
             }
         })
 
-        if (deletedDish.count === 0) throw new Error("No se encontró el plato con id: " + idDish)
+        if (deletedDish.count === 0) throw new HTTPError("No se encontró el plato con id: " + idDish, 404)
 
         return deletedDish;
     }

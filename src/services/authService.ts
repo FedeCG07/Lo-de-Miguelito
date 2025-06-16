@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { HTTPError } from '../errors/HTTPError';
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
@@ -16,8 +17,8 @@ export class AuthService {
         try {
             const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
             return decoded;
-        } catch (err) {
-            throw new Error('Token inválido o expirado');
+        } catch (error) {
+            throw new HTTPError('Token inválido o expirado', 401);
         }
     }
 }
