@@ -11,7 +11,7 @@ export async function deleteDish(req: Request, res: Response) {
 
         if (!token) throw new Error('Debe iniciar sesión para usar esta función')
 
-        const { idDish } = req.body;
+        const idDish: number = +req.params.id;
         const decodedToken = authService.decodeToken(token);
         const dish = await menuService.deleteDish(idDish, decodedToken.role);
 

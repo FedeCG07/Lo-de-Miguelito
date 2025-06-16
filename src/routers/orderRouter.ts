@@ -7,4 +7,4 @@ export const orderRouter = Router();
 
 orderRouter.post('/create', createOrder);
 orderRouter.get('/state', checkState);
-orderRouter.post('/update', updateState);
+orderRouter.patch('/update/:id', updateState);

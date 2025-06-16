@@ -7,4 +7,4 @@ export const menuRouter = Router()
 
 menuRouter.get('/', dishes);
 menuRouter.post('/create', createDish);
-menuRouter.post('/delete', deleteDish)
+menuRouter.delete('/delete/:id', deleteDish)

@@ -12,7 +12,8 @@ export async function updateState(req: Request, res: Response) {
         if (!token) throw new Error('Debe iniciar sesión para usar esta función')
 
         const decodedToken = authService.decodeToken(token);
-        const { idOrder, idState  } = req.body;
+        const idOrder: number = +req.params.id;
+        const { idState } = req.body;
 
         await orderService.updateOrderState(idOrder, idState, decodedToken.role);
         

@@ -7,4 +7,4 @@ export const clientRouter = Router()
 
 clientRouter.post('/register', register);
 clientRouter.post('/login', login)
-clientRouter.post('/logout', logout)
+clientRouter.get('/logout', logout)
