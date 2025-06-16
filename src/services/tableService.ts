@@ -50,10 +50,36 @@ export class TableService {
         
     }
 
-    async unreserveTable(tableNumber: number, idClient: number) {
+    async cancelTableReservation(tableNumber: number, idClient: number) {
         try {
             await tableRepository.unreserveTable(tableNumber);
             await clientRepository.unreserveTable(idClient);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async cancelClientReservation(idClient: number) {
+        try {
+            const client = await clientRepository.getClientById(idClient);
+
+            const tableNumber = client.reservedTable;
+
+            if (!tableNumber) throw new Error('No tiene ninguna mesa reservada')
+
+            this.cancelTableReservation(tableNumber, idClient);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async unreserveTable(tableNumber: number, role: string) {
+        try {
+            if (role == 'Client') throw new Error('Debe ser administrador para acceder a esta función');
+
+            const client = await clientRepository.getClientbyTableNumber(tableNumber);
+
+            this.cancelTableReservation(tableNumber, client.idClient);
         } catch (error) {
             throw error;
         }

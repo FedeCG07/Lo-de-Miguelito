@@ -59,8 +59,10 @@ export class OrderService {
         }
     }
 
-    async checkOrderState(idOrder: number) {
+    async checkOrderState(idOrder: number, role: string) {
         try {
+            if (role == 'Client') throw new Error('Debe ser administrador para acceder a esta función');
+            
             const order = await orderRepository.getOrder(idOrder);
             const state = await stateRepository.getState(order.idState);
 

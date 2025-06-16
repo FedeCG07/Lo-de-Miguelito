@@ -6,6 +6,8 @@ import { clientRouter } from './routers/clientRouter';
 import { menuRouter } from './routers/menuRouter';
 import { tablesRouter } from './routers/tablesRouter';
 import { orderRouter } from './routers/orderRouter';
+import { orderAdminRouter } from './routers/orderAdminRouter';
+import { tablesAdminRouter } from "./routers/tablesAdminRouter";
 
 const app = express()
 
@@ -15,6 +17,8 @@ app.use('/client', clientRouter)
 app.use('/menu', menuRouter)
 app.use('/tables', tablesRouter)
 app.use('/order', orderRouter)
+app.use('/orderadmin', orderAdminRouter)
+app.use('/tablesadmin', tablesAdminRouter)
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   res.status(400).json({ error: err.message || 'Internal Server Error' });

@@ -12,15 +12,9 @@ export async function checkState(req: Request, res: Response) {
         if (!token) throw new Error('Debe iniciar sesión para usar esta función')
 
         const decodedToken = authService.decodeToken(token);
+        const orderStates = await orderService.checkClientsOrdersState(decodedToken.id);
         
-        if (!req.body || decodedToken.role == "Client") {
-            const orderStates = await orderService.checkClientsOrdersState(decodedToken.id);
-            res.json(orderStates);
-        } else {
-            const { idOrder } = req.body;
-            const orderState = await orderService.checkOrderState(idOrder);
-            res.json({ message: 'Estado de la orden ' + idOrder + ': ' + orderState});
-        }
+        res.json(orderStates);
     }catch (error) {
         throw error;
     }

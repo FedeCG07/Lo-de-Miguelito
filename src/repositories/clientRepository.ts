@@ -45,6 +45,18 @@ export class ClientRepository {
         return client;
     }
 
+    async getClientbyTableNumber(reservedTable: number) {
+        const client = await db.client.findFirst({
+            where: {
+                reservedTable
+            }
+        })
+
+        if (!client) throw new Error("Ningún cliente ha reservado esta mesa")
+
+        return client;
+    }
+
     async increaseOrdersCount(idClient: number) {
         const updatedClient = await db.client.updateMany({
             where: {
