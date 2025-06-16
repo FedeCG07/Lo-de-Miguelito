@@ -45,21 +45,8 @@ export class ClientRepository {
         return client;
     }
 
-    async getClientbyReservedTable(reservedTable: number) {
-        const client = await db.client.findFirst({
-            where: {
-                reservedTable
-            }
-        })
-
-        if (!client) throw new Error("Ningún cliente reservó la mesa número " + reservedTable)
-
-        return client;
-    }
-
-
     async increaseOrdersCount(idClient: number) {
-        const updatedClient = await db.client.update({
+        const updatedClient = await db.client.updateMany({
             where: {
                 idClient
             },
@@ -70,13 +57,13 @@ export class ClientRepository {
             }
         })
 
-        if (!updatedClient) throw new Error("No se encontró el cliente con id: " + idClient)
+        if (updatedClient.count === 0) throw new Error("No se encontró el cliente con id: " + idClient)
 
         return updatedClient;
     }
 
     async reserveTable(idClient: number, tableNumber: number) {
-        const updatedClient = await db.client.update({
+        const updatedClient = await db.client.updateMany({
             where: {
                 idClient
             },
@@ -85,11 +72,13 @@ export class ClientRepository {
             }
         })
 
+        if (updatedClient.count === 0) throw new Error('No existe el usuario con id: ' + idClient);
+
         return updatedClient;
     }
 
     async unreserveTable(idClient: number) {
-        const updatedClient = await db.client.update({
+        const updatedClient = await db.client.updateMany({
             where: {
                 idClient
             },
@@ -98,7 +87,7 @@ export class ClientRepository {
             }
         })
 
-        if (!updatedClient) throw new Error("No se encontró el cliente con id: " + idClient);
+        if (updatedClient.count === 0) throw new Error("No se encontró el cliente con id: " + idClient);
 
         return updatedClient;
     }

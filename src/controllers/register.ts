@@ -1,4 +1,3 @@
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { Request, Response } from 'express';
 import { ClientService } from '../services/clientService';
 
@@ -11,8 +10,9 @@ export async function register(req: Request, res: Response) {
         res.json({ message: 'Registro exitoso' });
     } catch (error: any) {
         if (error && error.code === 'P2002' && error.constructor?.name === 'PrismaClientKnownRequestError') {
-            throw new Error('Email already exists');
+            throw new Error('Este email ya fue registrado');
         }
+        
         throw error;
     }
 }

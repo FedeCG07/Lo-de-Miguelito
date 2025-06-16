@@ -35,24 +35,27 @@ export class TableService {
 
     async reserveTable(tableNumber: number, idClient: number) {
         try {
+            await this.checkTableAviability(tableNumber);
+
+            const client = await clientRepository.getClientById(idClient);
+
+            if (client.reservedTable) throw new Error('El cliente ya tiene una mesa reservada. Para reservar una mesa nueva cancele la reserva actual')
+            
             await tableRepository.reserveTable(tableNumber);
+            await clientRepository.reserveTable(idClient, tableNumber);
 
-            const client = await clientRepository.reserveTable(idClient, tableNumber);
-
-            if (!client) {
-                await tableRepository.unreserveTable(tableNumber);
-                throw new Error('No existe el usuario con id: ' + idClient);
-            }
         } catch (error) {
             throw error;
         }
         
     }
 
-    async unreserveTable(tableNumber: number) {
-        await tableRepository.unreserveTable(tableNumber);
-
-        const client = await clientRepository.getClientbyReservedTable(tableNumber);
-        await clientRepository.unreserveTable(client.idClient);
+    async unreserveTable(tableNumber: number, idClient: number) {
+        try {
+            await tableRepository.unreserveTable(tableNumber);
+            await clientRepository.unreserveTable(idClient);
+        } catch (error) {
+            throw error;
+        }
     }
 }

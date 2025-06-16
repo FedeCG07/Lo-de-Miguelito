@@ -5,13 +5,14 @@ import { ClientRepository } from "../repositories/clientRepository";
 import { DiscountService } from "./discountService";
 import { StateRepository } from "../repositories/stateRepository";
 import { stat } from "fs";
+import { error } from "console";
 
 interface CreateOrderItem {
   idDish: number;
   amount: number;
 }
 
-type CreateOrderBody = CreateOrderItem[];
+export type CreateOrderBody = CreateOrderItem[];
 
 const orderRepository = new OrderRepository();
 const orderDishesRepository = new OrderDishesRepository();
@@ -21,7 +22,7 @@ const discountService = new DiscountService();
 const stateRepository = new StateRepository();
 
 export class OrderService {
-    async createOrder(order: CreateOrderItem[], idClient: number) {
+    async createOrder(order: CreateOrderBody, idClient: number) {
         try {
             const client = await clientRepository.getClientById(idClient);
 
@@ -51,6 +52,8 @@ export class OrderService {
                 const amount = item.amount;
                 await orderDishesRepository.addDishToOrder(idOrder, idDish, amount)
             }
+
+            return newOrder;
         } catch(error) {
             throw error;
         }
@@ -69,10 +72,32 @@ export class OrderService {
 
     async updateOrderState(idOrder: number, idState: number, role: string) {
         try {
-            if (role === 'Client') throw new Error('Debe ser administrador para acceder a esta función');
+            if (role == 'Client') throw new Error('Debe ser administrador para acceder a esta función');
 
             const order = await orderRepository.changeOrderState(idOrder, idState);
         } catch(error) {
+            throw error;
+        }
+    }
+
+    async checkClientsOrdersState(idClient: number) {
+        try {
+            const orders = await orderRepository.getClientsOrders(idClient);
+            
+            const ordersState = await Promise.all(
+            orders.map(async (order: any) => {
+                const state = await stateRepository.getState(order.idState);
+                return {
+                    id: order.idOrder,
+                    state: state.state
+                };
+            })
+            );
+
+            if (ordersState.length === 0) throw new Error('No tiene pedidos activos');
+
+            return ordersState;
+        } catch (error) {
             throw error;
         }
     }

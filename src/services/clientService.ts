@@ -43,4 +43,14 @@ export class ClientService {
             throw error;
         }
     }
+
+    async getReservedTable(idClient: number) {
+        const client = await clientRepository.getClientById(idClient);
+
+        const reservedTable = client.reservedTable;
+
+        if (!reservedTable) throw new Error('No tiene ninguna mesa reservada');
+
+        return reservedTable;
+    }
 }

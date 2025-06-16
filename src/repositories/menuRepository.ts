@@ -35,13 +35,13 @@ export class MenuRepository {
     }
 
     async deleteDish(idDish: number) {
-        const deletedDish = await db.menu.delete({
+        const deletedDish = await db.menu.deleteMany({
             where: {
                 idDish
             }
         })
 
-        if (!deletedDish) throw new Error("No se encontró el plato con id: " + idDish)
+        if (deletedDish.count === 0) throw new Error("No se encontró el plato con id: " + idDish)
 
         return deletedDish;
     }

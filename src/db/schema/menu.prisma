@@ -7,5 +7,5 @@ model Menu {
 
   orders OrderDishes[]
 
-  category Category @relation(fields: [idDish], references: [idCategory])
+  category Category @relation(fields: [idCategory], references: [idCategory])
 }

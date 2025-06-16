@@ -25,8 +25,8 @@ export async function login(req: Request, res: Response) {
         res.cookie('token', token, {
             httpOnly: true,       // prevents JS access (safe)
             secure: false,        // set to true if using HTTPS
-            sameSite: 'lax',      // or 'strict' or 'none'
-            maxAge: 60 * 1000 // 1 hour
+            sameSite: 'strict',      // solo permite usarla en el mismo dominio de origen
+            maxAge: 1000 * 60 * 60 // 1 hour
         });
 
         res.json({ message: 'Inicio de sesón exitoso' });

@@ -12,8 +12,10 @@ const menuRepository = new MenuRepository();
 const categoryRepository = new CategoryRepository();
 
 export class MenuService {
-    async createDish(name: string, desc: string, price: number, idCategory: number) {
+    async createDish(name: string, desc: string, price: number, idCategory: number, role: string) {
         try {
+            if (role == 'Client') throw new Error('Debe ser administrador para acceder a esta función');
+
             const newDish = await menuRepository.createDish(name, desc, price, idCategory);
 
             return newDish;
@@ -30,7 +32,7 @@ export class MenuService {
             dishes.map(async (dish: any) => {
                 const category = await categoryRepository.getCategory(dish.idCategory);
                 return {
-                    id: dish.id,
+                    id: dish.idDish,
                     name: dish.name,
                     desc: dish.desc,
                     price: dish.price,
@@ -47,8 +49,10 @@ export class MenuService {
         }
     }
 
-    async deleteDish(idDish: number) {
+    async deleteDish(idDish: number, role: string) {
         try {
+            if (role == 'Client') throw new Error('Debe ser administrador para acceder a esta función');
+
             const deletedDish = await menuRepository.deleteDish(idDish);
     
             return deletedDish;

@@ -31,8 +31,20 @@ export class OrderRepository {
         return order;
     }
 
+    async getClientsOrders(idClient: number) {
+        const orders = await db.order.findMany({
+            where: {
+                idClient
+            }
+        })
+
+        if (!orders) throw new Error('No tiene ninguna orden activa')
+
+        return orders;
+    }
+
     async changeOrderState(idOrder: number, idState: number) {
-        const updatedOrder = await db.order.update({
+        const updatedOrder = await db.order.updateMany({
             where: {
                 idOrder
             }, 
@@ -40,6 +52,8 @@ export class OrderRepository {
                 idState
             }
         })
+
+        if (updatedOrder.count === 0) throw new Error('No existe la orden número ' + idOrder)
 
         return updatedOrder;
     }

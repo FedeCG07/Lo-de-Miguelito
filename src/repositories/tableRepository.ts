@@ -17,7 +17,7 @@ export class TableRepository {
     }
 
     async reserveTable(tableNumber: number) {
-        const updatedTable = await db.table.update({
+        const updatedTable = await db.table.updateMany({
             where: {
                 tableNumber
             },
@@ -26,13 +26,13 @@ export class TableRepository {
             }
         })
 
-        if (!updatedTable) throw new Error("No se encontró la mesa número " + tableNumber)
+        if (updatedTable.count === 0) throw new Error("No se encontró la mesa número " + tableNumber)
 
         return updatedTable;
     }
 
     async unreserveTable(tableNumber: number) {       
-        const updatedTable = await db.table.update({
+        const updatedTable = await db.table.updateMany({
             where: {
                 tableNumber
             },
@@ -41,7 +41,7 @@ export class TableRepository {
             }
         }) 
 
-        if (!updatedTable) throw new Error("No se encontró la mesa número " + tableNumber)
+        if (updatedTable.count === 0) throw new Error("No se encontró la mesa número " + tableNumber)
 
         return updatedTable;
     }

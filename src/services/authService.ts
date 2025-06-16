@@ -12,9 +12,9 @@ export class AuthService {
         return jwt.sign(data, JWT_SECRET, { expiresIn: '1h' });
     }
 
-    verifyToken(token: string) {
+    decodeToken(token: string) {
         try {
-            const decoded = jwt.verify(token, JWT_SECRET);
+            const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
             return decoded;
         } catch (err) {
             throw new Error('Token inválido o expirado');
