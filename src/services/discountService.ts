@@ -9,13 +9,13 @@ export class DiscountService {
             const totalOrders = client.totalOrders;
             let discountPercentage = 0;
 
-            if (totalOrders > 3 && totalOrders <= 5) {
+            if (totalOrders >= 3 && totalOrders < 5) {
                 discountPercentage = 10;
             } 
-            if (totalOrders > 5 && totalOrders <= 7) {
+            if (totalOrders >= 5 && totalOrders < 7) {
                 discountPercentage = 20;
             } 
-            if (totalOrders > 7) {
+            if (totalOrders >= 7) {
                 discountPercentage = 50;
             }
 

@@ -34,14 +34,12 @@ export class OrderService {
                 const dish = await menuRepository.getDishById(item.idDish);
                 amountOfDishes += item.amount;
                 const price = dish.price;
-                for (var i = 0; i < item.amount; i++) {
-                    totalPrice += price;
-                }
+                totalPrice += price * item.amount;
             }
 
             const address = client.address;
             const discountPercentage = await discountService.getDiscountPercentage(client.idClient);
-            totalPrice -= totalPrice * (discountPercentage / 100)
+            totalPrice -= totalPrice * (discountPercentage / 100);
 
             const newOrder = await orderRepository.createOrder(idClient, amountOfDishes, totalPrice, discountPercentage, address);
 
@@ -52,6 +50,8 @@ export class OrderService {
                 const amount = item.amount;
                 await orderDishesRepository.addDishToOrder(idOrder, idDish, amount)
             }
+
+            await clientRepository.increaseOrdersCount(client.idClient);
 
             return newOrder;
         } catch(error) {
@@ -95,8 +95,6 @@ export class OrderService {
                 };
             })
             );
-
-            if (ordersState.length === 0) throw new HTTPError('No tiene pedidos activos', 404);
 
             return ordersState;
         } catch (error) {

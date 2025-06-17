@@ -175,7 +175,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Suprema de Pollo\",\r\n    \"desc\": \"Milanesa de pollo para una persona con guarnición a elección\",\r\n    \"price\": 500,\r\n    \"idCategory\": 2\r\n}",
+							"raw": "{\r\n    \"name\": \"Ñoquis con Salsa\",\r\n    \"desc\": \"Ñoquis caseros con salsa a elección\",\r\n    \"price\": 500,\r\n    \"idCategory\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -283,7 +283,7 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "http://localhost:8000/tables/avaible",
+									"raw": "http://localhost:8000/tables/available",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -291,7 +291,7 @@
 									"port": "8000",
 									"path": [
 										"tables",
-										"avaible"
+										"available"
 									]
 								}
 							},
@@ -447,7 +447,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"idOrder\": 1\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -479,7 +479,12 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    [\r\n        {\r\n            \"idDish\": 1,\r\n            \"amount\": 2\r\n        },\r\n        {\r\n            \"idDish\": 2,\r\n            \"amount\": 1\r\n        },\r\n    ]\r\n}"
+									"raw": "[\r\n    {\r\n        \"idDish\": 1,\r\n        \"amount\": 2\r\n    },\r\n    {\r\n        \"idDish\": 2,\r\n        \"amount\": 1\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
 								},
 								"url": {
 									"raw": "http://localhost:8000/order/create",

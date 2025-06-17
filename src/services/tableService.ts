@@ -11,8 +11,6 @@ export class TableService {
         try {
             const table = await tableRepository.getTable(tableNumber);
 
-            if (!table) throw new HTTPError('No existe la mesa número ' + tableNumber, 404);
-
             if (table.reserved) throw new HTTPError('La mesa ' + tableNumber + ' está ocupada', 403);
         } catch (error) {
             throw error;

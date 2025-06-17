@@ -6,7 +6,7 @@ import { noAccountError } from '../errors/NoAccountError';
 const authService = new AuthService();
 const menuService = new MenuService();
 
-export async function deleteDish(req: Request, res: Response) {
+export async function   deleteDish(req: Request, res: Response) {
     try {
         const token = req.cookies?.token;
 

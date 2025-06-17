@@ -16,7 +16,7 @@ export async function unreserveTable(req: Request, res: Response){
 
         await tableService.cancelClientReservation(decodedToken.id);
 
-        res.status(200).json({ message: 'Reserva terminada exitosamente' });
+        res.status(200).json({ message: 'Reserva cancelada exitosamente' });
     } catch (error) {
         throw error;
     }

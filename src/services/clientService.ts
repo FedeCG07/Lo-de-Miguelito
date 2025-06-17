@@ -28,10 +28,6 @@ export class ClientService {
             const client = await clientRepository.getClientByEmail(email);
 
             const password = client.password;
-
-            if (!password) {
-                throw new HTTPError('El email no está registrado.', 404);
-            }
             
             const passwordMatch = await bcrypt.compare(inputPassword, password);
 
