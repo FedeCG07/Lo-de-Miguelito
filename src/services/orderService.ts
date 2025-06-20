@@ -26,8 +26,6 @@ export class OrderService {
         try {
             const client = await clientRepository.getClientById(idClient);
 
-            if (!client.reservedTable) throw new HTTPError('No puede efectuar un pedido sin reservar una mesa', 403)
-
             let amountOfDishes = 0;
             let totalPrice = 0;
             for (const item of order) {

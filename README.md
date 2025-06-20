@@ -8,6 +8,10 @@ Este proyecto es una API REST desarrollada con Node.js y Express, diseñada para
 # Aclaración sobre Contributors del repositorio
 Entre los contributors se encuentra otro usuario de github debido a que por accidente no configuramos correctamente una computadora del colegio y al hacer el push se hizo con el usuario que estaba configurado en esa computadora.
 
+# Decisiones en el diseño
+Entre las decisiones para el diseño podemos mencionar la funcionalidad de de que el cliente pueda cancelar su propia reserva, ya que esta no formaba parte de la consigna. 
+Luego, otra decisión que está relacionada más con el diseño general que con algo en específico, es que en las funcionalidades a ser usadas por el cliente se suele intentar pedir la menor información posible e intentar "automatizar todo". Por ejemplo, en las funciones como cerrar sesión no sé pregunta qué usuario está cerrando sesión, o en cancelar la reserva no se pide al usuario qué mesa es de la que se va a cancelar la reserva, y cuando el el cliente quiere ver el estado de pedido, se obtienen todos sus pedidos y se muestran todos en lugar de preguntar qué pedido quiere.
+
 # Compilar y correr el proyecto
 Para poder compilarlo es necesario correr los siguientes comandos:
 ```bash
